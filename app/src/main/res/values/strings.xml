@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Firebase Login App</string>
+
+    <string name="stringOfCreateAnAccount"><u>Create An Account</u></string>
+    <string name="stringOfGoToLogin"><u>Go To Login</u></string>
+
+<!--    facebook-->
+    <string name="facebook_app_id">1380313432358082</string>
+    <string name="fb_login_protocol_scheme">fb1380313432358082</string>
+
+</resources>

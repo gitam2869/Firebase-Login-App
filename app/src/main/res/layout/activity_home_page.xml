@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SplashScreenActivity"
+    android:background="@color/backgroundColor">
+
+    <ImageView
+        android:id="@+id/id"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:foregroundGravity="center"
+        android:src="@drawable/cyberathon_logo"
+        android:layout_above="@id/idTextViewVerifyMobileNewMobileVerificationActivity"
+        android:layout_centerInParent="true"
+        />
+
+    <TextView
+        android:id="@+id/idTextViewVerifyMobileNewMobileVerificationActivity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome To CybeRathon"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="22sp"
+        android:layout_centerInParent="true"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/idButtonLogoutLoginActivity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:insetTop="1dp"
+        android:insetBottom="1dp"
+        android:text="Log out"
+        android:textSize="16sp"
+        app:rippleColor="#ffff"
+        app:cornerRadius="0dp"
+        android:layout_alignParentBottom="true"
+
+        />
+
+
+</RelativeLayout>
