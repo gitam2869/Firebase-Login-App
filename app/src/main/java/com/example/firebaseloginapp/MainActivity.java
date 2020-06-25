@@ -1,9 +1,5 @@
 package com.example.firebaseloginapp;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -11,7 +7,6 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,13 +15,14 @@ import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.login.Login;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
@@ -47,18 +43,14 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-
-
-//facebook
-import com.facebook.FacebookSdk;
-import com.facebook.appevents.AppEventsLogger;
 import com.google.firebase.auth.OAuthProvider;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.util.Arrays;
+
+//facebook
 
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends AppCompatActivity implements View.OnClickListener
 {
     private static final String TAG = "MainActivity";
     private TextInputLayout textInputLayoutEmail;
@@ -198,61 +190,124 @@ public class MainActivity extends AppCompatActivity
 
         callbackManager = CallbackManager.Factory.create();
 
-        loginButton.setReadPermissions("public_profile","email", "user_birthday");
+        materialButtonFacebook.setOnClickListener(this);
 
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>()
-        {
-            @Override
-            public void onSuccess(LoginResult loginResult)
-            {
-                progressDialog.setMessage("Verifying...");
-                progressDialog.setCancelable(false);
-                progressDialog.show();
-                //handling the token for Firebase Auth
+//        public void fbLogin(View view)
+//        {
+//            // Before Edit:
+//            // LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("user_photos", "email", "public_profile", "user_posts" , "AccessToken"));
+//
+//            LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("user_photos", "email", "public_profile", "user_posts"));
+//            LoginManager.getInstance().logInWithPublishPermissions(this, Arrays.asList("publish_actions"));
+//            LoginManager.getInstance().registerCallback(callbackManager,
+//                    new FacebookCallback<LoginResult>()
+//                    {
+//                        @Override
+//                        public void onSuccess(LoginResult loginResult)
+//                        {
+//                            // App code
+//                        }
+//
+//                        @Override
+//                        public void onCancel()
+//                        {
+//                            // App code
+//                        }
+//
+//                        @Override
+//                        public void onError(FacebookException exception)
+//                        {
+//                            // App code
+//                        }
+//                    });
+//        }
 
-                handleFacebookAccessToken(loginResult.getAccessToken());
-
-//                GraphRequest graphRequest = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback()
+//        materialButtonFacebook.setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View v)
+//            {
+//                LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("user_photos", "email", "public_profile", "user_posts"));
+//
+////                LoginManager.getInstance().logInWithPublishPermissions(this, Arrays.asList("publish_actions"));
+//                LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>()
 //                {
 //                    @Override
-//                    public void onCompleted(JSONObject object, GraphResponse response)
+//                    public void onSuccess(LoginResult loginResult)
 //                    {
-//                        try {
-//                            String email = object.getString("email");
-//                            String birthday = object.getString("birthday");
 //
-//                            Log.i(TAG, "onCompleted: Email: " + email);
-//                            Log.i(TAG, "onCompleted: Birthday: " + birthday);
+//                    }
 //
-//                        }
-//                        catch (JSONException e)
-//                        {
-//                            e.printStackTrace();
-//                            Log.i(TAG, "onCompleted: JSON exception");
-//                        }
+//                    @Override
+//                    public void onCancel()
+//                    {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(FacebookException error)
+//                    {
+//
 //                    }
 //                });
+//            }
+//        });
+
+//        loginButton.setReadPermissions("public_profile","email", "user_birthday");
 //
-//                Bundle parameters = new Bundle();
-//                parameters.putString("fields", "id,name,email");
-//                graphRequest.setParameters(parameters);
-//                graphRequest.executeAsync();
-            }
-
-            @Override
-            public void onCancel()
-            {
-                Log.d(TAG, "facebook:onCancel");
-                progressDialog.dismiss();
-            }
-
-            @Override
-            public void onError(FacebookException error)
-            {
-                Log.d(TAG, "facebook:onError", error);
-                progressDialog.dismiss();
-            }
-        });
+//        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>()
+//        {
+//            @Override
+//            public void onSuccess(LoginResult loginResult)
+//            {
+//                progressDialog.setMessage("Verifying...");
+//                progressDialog.setCancelable(false);
+//                progressDialog.show();
+//                //handling the token for Firebase Auth
+//
+//                handleFacebookAccessToken(loginResult.getAccessToken());
+//
+////                GraphRequest graphRequest = GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback()
+////                {
+////                    @Override
+////                    public void onCompleted(JSONObject object, GraphResponse response)
+////                    {
+////                        try {
+////                            String email = object.getString("email");
+////                            String birthday = object.getString("birthday");
+////
+////                            Log.i(TAG, "onCompleted: Email: " + email);
+////                            Log.i(TAG, "onCompleted: Birthday: " + birthday);
+////
+////                        }
+////                        catch (JSONException e)
+////                        {
+////                            e.printStackTrace();
+////                            Log.i(TAG, "onCompleted: JSON exception");
+////                        }
+////                    }
+////                });
+////
+////                Bundle parameters = new Bundle();
+////                parameters.putString("fields", "id,name,email");
+////                graphRequest.setParameters(parameters);
+////                graphRequest.executeAsync();
+//            }
+//
+//            @Override
+//            public void onCancel()
+//            {
+//                Log.d(TAG, "facebook:onCancel");
+//                progressDialog.dismiss();
+//            }
+//
+//            @Override
+//            public void onError(FacebookException error)
+//            {
+//                Log.d(TAG, "facebook:onError", error);
+//                progressDialog.dismiss();
+//            }
+//        });
 
 
 //        sign in with github
@@ -349,13 +404,13 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
     {
-        //        facebook
+        //    facebook
         callbackManager.onActivityResult(requestCode, resultCode, data);
 
         super.onActivityResult(requestCode, resultCode, data);
 
 
-
+//        for google sign in
         if(requestCode == RESULT_CODE_SINGIN)
         {
             Task<GoogleSignInAccount> googleSignInAccountTask = GoogleSignIn.getSignedInAccountFromIntent(data);
@@ -434,6 +489,7 @@ public class MainActivity extends AppCompatActivity
                     {
                         if (task.isSuccessful())
                         {
+                            progressDialog.dismiss();
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = firebaseAuth.getCurrentUser();
@@ -707,5 +763,58 @@ public class MainActivity extends AppCompatActivity
 
         // Show the Alert Dialog box
         alertDialog.show();
+    }
+
+    /**
+     * Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v)
+    {
+        if(v == materialButtonFacebook)
+        {
+            // Before Edit:
+            // LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("user_photos", "email", "public_profile", "user_posts" , "AccessToken"));
+
+            LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList( "email"));
+
+//            LoginManager.getInstance().logInWithPublishPermissions(this, Arrays.asList("publish_actions"));
+            LoginManager.getInstance().registerCallback(callbackManager,
+                    new FacebookCallback<LoginResult>()
+                    {
+                        @Override
+                        public void onSuccess(LoginResult loginResult)
+                        {
+                            // App code
+
+                            progressDialog.setMessage("Verifying...");
+                            progressDialog.setCancelable(false);
+                            progressDialog.show();
+                            //handling the token for Firebase Auth
+
+                            handleFacebookAccessToken(loginResult.getAccessToken());
+                        }
+
+                        @Override
+                        public void onCancel()
+                        {
+                            // App code
+
+                            Log.d(TAG, "facebook:onCancel");
+                            progressDialog.dismiss();
+                        }
+
+                        @Override
+                        public void onError(FacebookException exception)
+                        {
+                            // App code
+
+                            Log.d(TAG, "onError: "+exception);
+                            progressDialog.dismiss();
+                        }
+                    });
+        }
     }
 }

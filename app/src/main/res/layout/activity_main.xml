@@ -135,6 +135,8 @@
                 android:layout_marginLeft="24dp"
                 android:layout_marginRight="24dp"
                 android:layout_marginBottom="24dp"
+
+                android:visibility="gone"
                 />
 
             <com.google.android.material.button.MaterialButton
@@ -157,9 +159,9 @@
                 app:iconTint="@null"
                 app:backgroundTint="#ffff"
 
-                android:visibility="gone"
 
                 />
+
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/idButtonGithubLoginActivity"
