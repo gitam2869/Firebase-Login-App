@@ -72,7 +72,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 //    sign in with google
     GoogleSignInClient googleSignInClient;
-
     private static final int RESULT_CODE_SINGIN = 121;
 
 
@@ -89,7 +88,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
 
         fa = this;
 
@@ -172,6 +170,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
+                .requestProfile()
                 .build();
 
         googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
@@ -326,6 +325,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+
         progressDialog = new ProgressDialog(this);
         toast = new Toast(this);
 
@@ -415,10 +415,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         {
             Task<GoogleSignInAccount> googleSignInAccountTask = GoogleSignIn.getSignedInAccountFromIntent(data);
 
+            progressDialog.setMessage("Verifying...");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+
             handleSignInResult(googleSignInAccountTask);
 
-            progressDialog.setMessage("Verifying...");
-            progressDialog.show();
         }
     }
 
@@ -432,7 +434,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         catch (ApiException e)
         {
-            fireBaseGoogleAuth(null);
+            progressDialog.dismiss();
+//            fireBaseGoogleAuth(null);
         }
     }
 
@@ -453,7 +456,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         }
                         else
                         {
-                            updateUI(null);
+                            progressDialog.dismiss();
                         }
                     }
                 });
@@ -462,6 +465,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void updateUI(FirebaseUser firebaseUser)
     {
         progressDialog.dismiss();
+
         GoogleSignInAccount googleSignInAccount = GoogleSignIn.getLastSignedInAccount(getApplicationContext());
 
         if(googleSignInAccount != null)

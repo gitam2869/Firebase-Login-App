@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -126,6 +128,11 @@ public class HomePageActivity extends AppCompatActivity
 //                                finish();
                                 firebaseAuth.signOut();
                                 LoginManager.getInstance().logOut();
+
+                                GoogleSignIn.getClient(
+                                        getApplicationContext(),
+                                        new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
+                                ).signOut();
 
                             }
                         });
